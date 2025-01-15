@@ -3,7 +3,7 @@
 
 [![Portifolio](https://img.shields.io/badge/website-000000?style=for-the-badge&logo=About.me&logoColor=white)](#)
 [![Instagram]( https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/b3rt0_20?igsh=MXYxbWk3c3VuamFsdA==)
-[![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/felipe-franceschini-b4b839228/)
+[![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/felipe-bertoncini-franceschini-b4b839228/)
 
 
 ![Felipe GitHub stats](https://github-readme-stats.vercel.app/api?username=Bert00100&show_icons=true&theme=dark)
