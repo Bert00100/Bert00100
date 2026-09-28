@@ -1,0 +1,64 @@
+name: Atualizar cards do perfil
+
+on:
+  schedule:
+    - cron: "23 9 * * *" # 06:23 em São Paulo (UTC-3).
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - README.md
+      - .github/workflows/profile-stats.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile-stats
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: github.repository == 'Bert00100/Bert00100'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+
+      - name: Definir ano dos commits
+        id: period
+        run: echo "year=$(date -u +%Y)" >> "$GITHUB_OUTPUT"
+
+      - name: Gerar estatísticas públicas
+        uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
+        with:
+          card: stats
+          options: username=Bert00100&show_icons=true&hide_rank=true&include_all_commits=false&commits_year=${{ steps.period.outputs.year }}&locale=pt-br&bg_color=0d1117&title_color=5eead4&text_color=c9d1d9&icon_color=58a6ff&border_color=303d4d&border_radius=16&disable_animations=true
+          path: profile/stats.svg
+          token: ${{ secrets.GITHUB_TOKEN }}
+          core_version: "2.2.1"
+          fail_on_error: "true"
+
+      - name: Gerar linguagens dos repositórios públicos
+        uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2
+        with:
+          card: top-langs
+          options: username=Bert00100&layout=compact&langs_count=6&card_width=360&locale=pt-br&bg_color=0d1117&title_color=5eead4&text_color=c9d1d9&border_color=303d4d&border_radius=16&disable_animations=true
+          path: profile/top-langs.svg
+          token: ${{ secrets.GITHUB_TOKEN }}
+          core_version: "2.2.1"
+          fail_on_error: "true"
+
+      - name: Salvar apenas cards atualizados
+        run: |
+          git add profile/stats.svg profile/top-langs.svg
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: atualizar estatísticas do perfil"
+          git pull --rebase origin main
+          git push origin HEAD:main
